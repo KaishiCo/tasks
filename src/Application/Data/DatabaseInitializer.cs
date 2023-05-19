@@ -36,7 +36,7 @@ public class DatabaseInitializer
     {
         using var connection = await _connectionFactory.CreateConnectionAsync();
 
-        if (await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Users") > 0)
+        if (await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM Users") > 0)
             return;
 
         var (passwordHash, passwordSalt) = _passwordHasher.HashPassword("ourmom");
