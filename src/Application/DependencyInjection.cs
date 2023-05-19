@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddSingleton<IAuthService, AuthService>()
             .AddSingleton<ITokenService, TokenService>()
             .AddSingleton<IUserRepository, UserRepository>()
+            .AddSingleton<ITaskItemRepository, TaskItemRepository>()
             .AddSingleton<IPasswordHasher, PasswordHasher>()
             .AddSingleton<DatabaseInitializer>();
 
