@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Models;
+using Bogus;
 using Dapper;
 
 namespace Application.Data;
@@ -9,12 +10,14 @@ public class DatabaseInitializer
     private readonly IDbConnectionFactory _connectionFactory;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly ITaskItemRepository _taskItemRepository;
 
-    public DatabaseInitializer(IDbConnectionFactory connectionFactory, IUserRepository userRepository, IPasswordHasher passwordHasher)
+    public DatabaseInitializer(IDbConnectionFactory connectionFactory, IUserRepository userRepository, IPasswordHasher passwordHasher, ITaskItemRepository taskItemRepository)
     {
         _connectionFactory = connectionFactory;
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _taskItemRepository = taskItemRepository;
     }
 
     public async Task InitializeAsync()
@@ -29,10 +32,19 @@ public class DatabaseInitializer
                 PasswordSalt BYTEA NOT NULL)
         """);
 
-        await SeedUserTableAsync();
+        await connection.ExecuteAsync("""
+            CREATE TABLE IF NOT EXISTS TaskItems(
+                Id UUID PRIMARY KEY,
+                Name VARCHAR(30) NOT NULL,
+                Description VARCHAR(255),
+                Date TIMESTAMP NOT NULL,
+                UserId UUID NOT NULL REFERENCES Users(Id))
+        """);
+
+        await SeedDevData();
     }
 
-    private async Task SeedUserTableAsync()
+    private async Task SeedDevData()
     {
         using var connection = await _connectionFactory.CreateConnectionAsync();
 
@@ -49,5 +61,18 @@ public class DatabaseInitializer
         };
 
         await _userRepository.CreateAsync(devUser);
+        var tasks = GenerateFakeTaskData(devUser.Id);
+        await _taskItemRepository.CreateAsync(tasks);
+    }
+
+    private static IEnumerable<TaskItem> GenerateFakeTaskData(Guid userId)
+    {
+        return new Faker<TaskItem>()
+            .RuleFor(t => t.UserId, _ => userId)
+            .RuleFor(t => t.Id, _ => Guid.NewGuid())
+            .RuleFor(t => t.Name, f => f.Lorem.Word())
+            .RuleFor(t => t.Description, f => f.Lorem.Sentence(3, 6))
+            .RuleFor(t => t.Date, f => f.Date.Future())
+            .GenerateBetween(4, 10);
     }
 }
