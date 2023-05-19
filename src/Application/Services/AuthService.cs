@@ -27,7 +27,7 @@ public class AuthService : IAuthService
             return new AuthResult(IsSuccess: false);
         }
 
-        var token = _tokenService.GenerateAccessToken(user.Id);
+        var token = _tokenService.GenerateAccessToken(user.Id, user.Username);
 
         return new AuthResult(
             IsSuccess: true,

@@ -8,12 +8,13 @@ namespace Application.Services;
 
 public class TokenService : ITokenService
 {
-    public string GenerateAccessToken(Guid userId)
+    public string GenerateAccessToken(Guid userId, string userName)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.NameId, userName)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super-secret-key"));
