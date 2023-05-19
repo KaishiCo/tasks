@@ -1,4 +1,4 @@
-using Application.Services;
+using Application.Interfaces;
 using Contracts.Requests;
 using Contracts.Responses;
 

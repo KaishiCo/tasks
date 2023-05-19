@@ -1,6 +1,6 @@
 using Application.Services.Common;
 
-namespace Application.Services;
+namespace Application.Interfaces;
 
 public interface IAuthService
 {

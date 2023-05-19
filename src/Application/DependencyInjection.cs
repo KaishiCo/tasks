@@ -1,4 +1,6 @@
 using Application.Data;
+using Application.Interfaces;
+using Application.Repositories;
 using Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,13 @@ public static class DependencyInjection
         services.AddSingleton<IDbConnectionFactory>(_ => new PostgresConnectionFactory(
             config["Database:ConnectionString"]!
         ));
-        services.AddSingleton<IAuthService, AuthService>();
+
+        services.AddSingleton<IAuthService, AuthService>()
+            .AddSingleton<ITokenService, TokenService>()
+            .AddSingleton<IUserRepository, UserRepository>()
+            .AddSingleton<IPasswordHasher, PasswordHasher>()
+            .AddSingleton<DatabaseInitializer>();
+
         return services;
     }
 }
