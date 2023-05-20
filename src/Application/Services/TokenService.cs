@@ -2,12 +2,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services;
 
 public class TokenService : ITokenService
 {
+    private readonly IConfiguration _config;
+
+    public TokenService(IConfiguration config) => _config = config;
+
     public string GenerateAccessToken(Guid userId, string userName)
     {
         var claims = new[]
@@ -21,10 +26,10 @@ public class TokenService : ITokenService
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: "http://localhost:7000",
-            audience: "http://localhost:7000",
+            issuer: _config["JwtSettings:Issuer"],
+            audience: _config["JwtSettings:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(60),
+            expires: DateTime.Now.AddMinutes(int.Parse(_config["JwtSettings:ExpiryMinutes"]!)),
             signingCredentials: credentials
         );
 

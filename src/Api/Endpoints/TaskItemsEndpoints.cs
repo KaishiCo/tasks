@@ -10,6 +10,7 @@ public static class TaskItemsEndpoints
         {
             var taskItems = await taskItemRepository.GetAllAsync();
             return Results.Ok(taskItems);
-        });
+        })
+        .RequireAuthorization();
     }
 }
