@@ -1,5 +1,8 @@
 # Docs
 
+## Note
+- [GUI Project](https://github.com/KaishiCo/Java-GUI-Application), created and maintained by Damien ([ArduousKokuhaku52](https://github.com/ArduousKokuhaku52))
+
 ## Running the project locally
 
 - Open a terminal window and navigate to the directory where the `docker-compose.yml` file is located.
