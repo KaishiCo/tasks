@@ -7,6 +7,7 @@ public interface ITaskItemRepository
     Task<IEnumerable<TaskItem>> GetAllAsync();
     Task<bool> CreateAsync(IEnumerable<TaskItem> taskItems);
     Task<bool> CreateAsync(TaskItem taskItem);
-    // Task<TaskItem> UpdateAsync(TaskItem taskItem);
-    // Task Deletesync(Guid id);
+    Task<bool> UpdateAsync(TaskItem taskItem);
+    Task<bool> DeleteAsync(Guid id);
+    Task<TaskItem?> GetByIdAsync(Guid id);
 }

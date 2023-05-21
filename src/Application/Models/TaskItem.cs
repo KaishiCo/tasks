@@ -2,9 +2,9 @@ namespace Application.Models;
 
 public class TaskItem
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = null!;
+    public required Guid Id { get; init; } = Guid.NewGuid();
+    public required string Name { get; set; }
     public string? Description { get; set; }
-    public DateTime Date { get; set; }
-    public Guid UserId { get; set; }
+    public required DateTime Date { get; set; }
+    public required Guid UserId { get; set; }
 }
