@@ -18,8 +18,8 @@ public class TokenService : ITokenService
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.NameId, userName)
+            new Claim("userid", userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, userName)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super-secret-key"));
