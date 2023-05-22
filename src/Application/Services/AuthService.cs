@@ -31,6 +31,7 @@ public class AuthService : IAuthService
 
         return new AuthResult(
             IsSuccess: true,
+            UserId: user.Id.ToString(),
             TokenType: TOKEN_TYPE,
             AccessToken: token,
             ExpiresIn: 3600);

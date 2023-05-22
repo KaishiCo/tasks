@@ -17,7 +17,8 @@ public static class AuthEndpoints
             return Results.Ok(new AuthResponse(
                 authResult.TokenType,
                 authResult.AccessToken,
-                authResult.ExpiresIn));
+                authResult.ExpiresIn,
+                authResult.UserId));
         });
     }
 }
