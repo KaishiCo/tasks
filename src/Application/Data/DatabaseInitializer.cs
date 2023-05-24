@@ -38,6 +38,7 @@ public class DatabaseInitializer
                 Name VARCHAR(30) NOT NULL,
                 Description VARCHAR(255),
                 Date TIMESTAMP NOT NULL,
+                IsCompleted BOOLEAN NOT NULL DEFAULT FALSE,
                 UserId UUID NOT NULL REFERENCES Users(Id))
         """);
 
@@ -72,6 +73,7 @@ public class DatabaseInitializer
             .RuleFor(t => t.Id, _ => Guid.NewGuid())
             .RuleFor(t => t.Name, f => f.Lorem.Word())
             .RuleFor(t => t.Description, f => f.Lorem.Sentence(3, 6))
+            .RuleFor(t => t.IsCompleted, _ => false)
             .RuleFor(t => t.Date, f => f.Date.Future())
             .GenerateBetween(4, 10);
     }

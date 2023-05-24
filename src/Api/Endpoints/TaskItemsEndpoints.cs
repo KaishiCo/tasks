@@ -24,6 +24,7 @@ public static class TaskItemsEndpoints
                 Name = request.Name,
                 Description = request.Description,
                 Date = request.Date,
+                IsCompleted = request.IsCompleted,
                 UserId = Guid.Parse(httpCtx.GetUserId())
             };
 
@@ -61,11 +62,13 @@ public static class TaskItemsEndpoints
             taskItem.Name = request.Name;
             taskItem.Description = request.Description;
             taskItem.Date = request.Date;
+            taskItem.IsCompleted = request.IsCompleted;
 
             var updated = await taskItemRepository.UpdateAsync(taskItem);
             if (!updated)
                 return Results.BadRequest();
             return Results.Ok(taskItem);
-        });
+        })
+        .RequireAuthorization();
     }
 }

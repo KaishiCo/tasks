@@ -19,8 +19,8 @@ public class TaskItemRepository : ITaskItemRepository
         using var connection = await _connectionFactory.CreateConnectionAsync();
 
         var result = await connection.ExecuteAsync("""
-            INSERT INTO TaskItems(Id, Name, Description, Date, UserId)
-            VALUES(@Id, @Name, @Description, @Date, @UserId)
+            INSERT INTO TaskItems(Id, Name, Description, Date, IsCompleted, UserId)
+            VALUES(@Id, @Name, @Description, @Date, @IsCompleted, @UserId)
         """, taskItems);
 
         return result > 0;
@@ -31,8 +31,8 @@ public class TaskItemRepository : ITaskItemRepository
         using var connection = await _connectionFactory.CreateConnectionAsync();
 
         var result = await connection.ExecuteAsync("""
-            INSERT INTO TaskItems(Id, Name, Description, Date, UserId)
-            VALUES(@Id, @Name, @Description, @Date, @UserId)
+            INSERT INTO TaskItems(Id, Name, Description, Date, IsCompleted, UserId)
+            VALUES(@Id, @Name, @Description, @Date, @IsCompleted, @UserId)
         """, taskItem);
 
         return result > 0;
@@ -69,7 +69,8 @@ public class TaskItemRepository : ITaskItemRepository
             UPDATE TaskItems
             SET Name = @Name,
             Description = @Description,
-            Date = @Date
+            Date = @Date,
+            IsCompleted = @IsCompleted
             WHERE Id = @Id
         """, taskItem);
 
