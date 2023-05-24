@@ -1,7 +1,7 @@
 # Docs
 
 ## Note
-- [GUI Project](https://github.com/KaishiCo/Java-GUI-Application), created and maintained by Damien ([ArduousKokuhaku52](https://github.com/ArduousKokuhaku52))
+- The [Desktop Application](https://github.com/KaishiCo/Java-GUI-Application) interfacing this project, created and maintained by Damien ([ArduousKokuhaku52](https://github.com/ArduousKokuhaku52))
 
 ## Running the project locally
 
@@ -11,22 +11,22 @@
 cd /path/to/the/docker-compose.yml
 ```
 
-- Run the following command to start the database container:
+- Run the following command to start the api and database containers:
 
 ```bash
 docker compose up -d
 ```
 
-- Run the following command to start the application:
-
-```bash
-dotnet run --project src/Api
-```
-
 ## Cleaning up
 
-- To stop the database container:
+- To stop the containers:
 
 ```bash
 docker compose down
+```
+
+- Or, to stop the containers and remove the volumes:
+
+```bash
+docker compose down -v
 ```
