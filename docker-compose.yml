@@ -1,6 +1,18 @@
 version: "3.9"
 
 services:
+  api:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 7000:80
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDev
   db:
     image: postgres:15.3-alpine
     ports:
@@ -10,3 +22,14 @@ services:
       POSTGRES_USER: ourdb
       POSTGRES_PASSWORD: ourpass
       POSTGRES_DB: postgres
+    volumes: 
+      - postgres_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ourdb -d postgres"]
+      interval: 2s
+      timeout: 4s
+      retries: 5
+
+volumes:
+  postgres_dev:
+
