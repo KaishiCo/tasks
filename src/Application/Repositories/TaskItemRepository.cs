@@ -70,7 +70,7 @@ namespace Application.Services
             SET Name = @Name,
             Description = @Description,
             Date = @Date,
-            IsCompleted = @IsCompleted,
+            IsCompleted = @IsCompleted
             WHERE Id = @Id
         """, taskItem);
 
